@@ -6,19 +6,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
+
 namespace testmylearning.Model
 {
-    public class PersonContext : DbContext
-    {
-        public PersonContext(DbContextOptions<PersonContext> options) : base(options)
-        {
-
-        }
-        public DbSet<person>  persons { get; set; }
-
-       
-    }
-    public class person 
+  
+    public class Person 
         {
         [Key]
         public int id { get; set; }

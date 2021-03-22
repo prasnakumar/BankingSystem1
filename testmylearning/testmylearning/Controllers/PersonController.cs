@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using testmylearning.Data;
+using testmylearning.handlers;
 using testmylearning.Model;
 
 namespace testmylearning.Controllers
@@ -16,27 +18,28 @@ namespace testmylearning.Controllers
     public class PersonController : ControllerBase
     {
 
-        PersonContext obj =null;
+        DataContext obj =null;
        
 
-        public PersonController(PersonContext _obj)
+        public PersonController(DataContext _obj)
         {
             obj = _obj; 
         }
 
         [HttpGet ]
-        public List<person> getPersons()
+        public List<Person> getPersons()
         {
            
                 
                 var listPerson = obj.persons.ToList();
-                return listPerson;
+          
+                return listPerson[0];
 
 
             
         }
         [HttpPost]
-        public ActionResult InsertPerson(person p)
+        public ActionResult InsertPerson(Person p)
         {
             obj.persons.Add(p);
             obj.SaveChanges();
@@ -44,7 +47,7 @@ namespace testmylearning.Controllers
 
         }
         [HttpPut]
-        public ActionResult UpdatePerson(person p)
+        public ActionResult UpdatePerson(Person p)
         {
             var per = obj.persons.Where(i => i.id == p.id).First();
             per.Name = p.Name;
@@ -64,7 +67,7 @@ namespace testmylearning.Controllers
 
         }
         [HttpGet("{id}")]
-        public person SinglePerson(int  id)
+        public Person SinglePerson(int  id)
         {
             var p = obj.persons.Where(i => i.id == id).First();
             return p;
@@ -72,7 +75,7 @@ namespace testmylearning.Controllers
         }
 
         
-        [HttpPut("{id}/{cmd}/{a}")]
+      /*  [HttpPut("{id}/{cmd}/{a}")]
         public ActionResult UpdateAmount(int id,int a,string cmd)
         {
             var per = obj.persons.Where(i => i.id ==id).First();
@@ -88,48 +91,58 @@ namespace testmylearning.Controllers
             return NoContent();
 
         }
-        
+
         [HttpPut("{cmd}/{number}")]
-        public ActionResult UpdateAmountAut(string cmd,float number)
+        public ActionResult UpdateAmountAut(string cmd, double number)
         { string authheader = HttpContext.Request.Headers["Authorization"];
-                if (authheader != null && authheader.StartsWith("Basic"))
-                {
+            if (authheader != null && authheader.StartsWith("Basic"))
+            {
 
-                    string a = authheader.Substring("Basic ".Length).Trim();
-                    Encoding encoding = Encoding.GetEncoding("UTF-8");
-                    string b = encoding.GetString(Convert.FromBase64String(a));
+                string a = authheader.Substring("Basic ".Length).Trim();
+                Encoding encoding = Encoding.GetEncoding("UTF-8");
+                string b = encoding.GetString(Convert.FromBase64String(a));
 
-                    int index = b.IndexOf(":");
+                int index = b.IndexOf(":");
 
-                    var username = b.Substring(0, index);
-                    var password = b.Substring(index + 1);
-                    person per = obj.persons.Where(i => i.Name==username && i.password==password).FirstOrDefault();
-                   if (per == null)
+                var username = b.Substring(0, index);
+                var password = b.Substring(index + 1);
+                Person per = obj.persons.Where(i => i.Name == username && i.password == password).FirstOrDefault();
+                if (per == null)
                 {
                     return Unauthorized();
 
                 }
-                if (cmd == "deposit")
-                   
-            {
-                        per.TotalAmount = per.TotalAmount + number ;
-            }
-            if (cmd == "withdraw")
-                {
-                    if (per.TotalAmount > number)
-                        per.TotalAmount = per.TotalAmount - number;
 
-                    else
-                        return Ok("cant withdraw ");
-            }
-            obj.SaveChanges();
-            return NoContent();
+                /*   if (cmd == "deposit")
 
-                   
-                }
+               {
+                           per.TotalAmount = per.TotalAmount + number ;
+               }
+               if (cmd == "withdraw")
+                   {
+                       if (per.TotalAmount > number)
+                           per.TotalAmount = per.TotalAmount - number;
+
+                       else
+                           return Ok("cant withdraw ");
+               }
+                Logic t = new Logic();
+                float mo = (float)per.TotalAmount;
+                per.TotalAmount = t.Check(number, per.TotalAmount, cmd);
+                obj.SaveChanges();
+
+                if (mo != per.TotalAmount)
+                    return Ok(per.TotalAmount);
+
+                else
+                    return Ok("can't");
+
+
+
+                } 
                 else
                 {
-                    return Ok("cant");
+                    return Ok("cant connect ");
                 }
             
        
@@ -137,5 +150,14 @@ namespace testmylearning.Controllers
 
         }
 
+        [HttpPut("rats/{money}")]
+        public ActionResult  UpdateMu(float money )
+        {
+            Logic a = new Logic();
+            float valu = a.Check(money , 100, "withdraw");
+
+            return Ok(valu);*/
+        }
+
     }
-}
+

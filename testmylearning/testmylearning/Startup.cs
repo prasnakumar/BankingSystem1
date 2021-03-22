@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using testmylearning.Data;
 //using testmylearning.handlers
 using testmylearning.Model;
 
@@ -29,10 +30,12 @@ namespace testmylearning
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContextPool<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
             services.AddControllers();
            // services.AddAuthentication("BasicAuthenticationHandler").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthenticationHandler", null);
-            services.AddDbContext<PersonContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
-           
+           // services.AddDbContext<DataContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+       
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -16,10 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="handlers\" />
+    <PackageReference Include="Moq" Version="4.16.1" />
   </ItemGroup>
 
 

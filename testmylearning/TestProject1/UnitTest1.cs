@@ -1,4 +1,5 @@
 using System;
+using testmylearning.handlers;
 using Xunit;
 
 namespace TestProject1
@@ -8,18 +9,20 @@ namespace TestProject1
         [Fact]
         public void PassingTest()
         {
-            Assert.Equal(4, Add(2, 2));
+            Logic a = new Logic();
+            float aa = a.Check(100, 100, "deposit");
+            Assert.Equal(200,aa);
         }
 
         [Fact]
-        public void FailingTest()
+
+        public void falingTest()
         {
-            Assert.Equal(5 , Add(2, 2));
+            Logic a = new Logic();
+            float aa = a.Check(10, 100, "deposit");
+            Assert.NotEqual(200, aa);
         }
 
-        int Add(int x, int y)
-        {
-            return x + y;
-        }
+       
     }
 }
